@@ -5,14 +5,9 @@ import (
 	"time"
 )
 
-type Girl struct {
-	name   string
-	number int
-}
-
-func pinger(c chan Girl) {
+func pinger(key string, c chan string) {
 	for i := 0; ; i++ {
-		c <- "ping"
+		c <- key + "ping"
 	}
 }
 func printer(c chan string) {
@@ -22,17 +17,18 @@ func printer(c chan string) {
 		time.Sleep(time.Second * 1)
 	}
 }
-func ponger(c chan string) {
+func ponger(key string, c chan string) {
 	for i := 0; ; i++ {
-		c <- "pong"
+		c <- key + "pong"
 	}
 }
 func main() {
-	g := Girl{"Kate", 0}
-	var c chan Girl = make(chan Girl)
+	var c chan string = make(chan string)
 
-	go pinger(c)
-	go ponger(c)
+	go pinger("Kate ", c)
+	go pinger("Marita ", c)
+	go ponger("Kate ", c)
+	go ponger("Marita ", c)
 	go printer(c)
 
 	var input string
