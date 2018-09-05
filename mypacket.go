@@ -2,35 +2,42 @@ package main
 
 import (
 	"fmt"
-	"time"
+	"strings"
 )
 
-func pinger(key string, c chan string) {
-	for i := 0; ; i++ {
-		c <- key + "ping"
-	}
-}
-func printer(c chan string) {
-	for {
-		msg := <-c
-		fmt.Println(msg)
-		time.Sleep(time.Second * 1)
-	}
-}
-func ponger(key string, c chan string) {
-	for i := 0; ; i++ {
-		c <- key + "pong"
-	}
-}
 func main() {
-	var c chan string = make(chan string)
+	fmt.Println(
+		// true
+		strings.Contains("test", "es"),
 
-	go pinger("Kate ", c)
-	go pinger("Marita ", c)
-	go ponger("Kate ", c)
-	go ponger("Marita ", c)
-	go printer(c)
+		// 2
+		strings.Count("test", "t"),
 
-	var input string
-	fmt.Scanln(&input)
+		// true
+		strings.HasPrefix("test", "te"),
+
+		// true
+		strings.HasSuffix("test", "st"),
+
+		// 1
+		strings.Index("test", "e"),
+
+		// "a-b"
+		strings.Join([]string{"a", "b"}, "-"),
+
+		// == "aaaaa"
+		strings.Repeat("a", 5),
+
+		// "bbaa"
+		strings.Replace("aaaa", "a", "b", 2),
+
+		// []string{"a","b","c","d","e"}
+		strings.Split("a-b-c-d-e", "-"),
+
+		// "test"
+		strings.ToLower("TEST"),
+
+		// "TEST"
+		strings.ToUpper("test"),
+	)
 }
